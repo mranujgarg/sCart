@@ -1,0 +1,38 @@
+.header{
+    display: flex;
+    width: 100%;
+    min-height: 60px;
+    background-color: silver;
+}
+.logo{
+    flex: 0;
+    min-width: 60px;
+}
+.search{
+    flex: 1;
+    justify-content: center;
+}
+.user{
+    padding: 1% 1% 0 0;
+    flex: 0;
+    min-width: 10vw;
+}
+.icon{
+    width: 24px;
+    height: 24px;
+    display: inline-flex;
+}
+.cart-value{
+    background-color: red;
+    color: white;
+    padding: 2px;
+    border-radius: 50%;
+    min-width: 10px;
+    font-size: 10px;
+    text-align: center;
+    font-weight: bold;
+}
+.cart-profile, user-profile{
+    display: flex;
+    align-items: flex-start;
+}
