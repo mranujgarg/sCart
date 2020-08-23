@@ -1,13 +1,14 @@
 <div class="login-form-container">
-    <form class="login-form" method="post">
+    <form class="login-form" #f="ngForm">
         <div class="login-form-wrapper">
             <label for="uname"><b>Username</b></label>
-            <input type="text" placeholder="Enter Username" name="uname" required>
+            <input type="text" [(ngModel)]="model.userName" #userName="ngModel" placeholder="Enter Username" name="uname" required>
 
             <label for="psw"><b>Password</b></label>
-            <input type="password" placeholder="Enter Password" name="psw" required>
+            <input type="password" [(ngModel)]="model.password" #password="ngModel" placeholder="Enter Password" name="psw" required>
 
-            <button type="submit">Login</button>
+            <button type="submit" [disabled]="f.form.invalid" [ngClass]="{'enable-button': f.form.valid, 'disable-button':f.form.invalid }" (click)="loginCall()">Login</button>
+            <div class="error-msg" *ngIf="errorMsg">{{errorMsg}}</div>
         </div>
 
     </form>

@@ -11,6 +11,10 @@ import { ProductTileComponent } from './dashboard/product-list/product-tile/prod
 import { HeaderComponent } from './header/header.component';
 import { SearchBarComponent } from './header/search-bar/search-bar.component';
 import { FooterComponent } from './footer/footer.component';
+import {HttpClientModule} from "@angular/common/http";
+import {CartServiceService} from "./services/cart-service.service";
+import {FormsModule} from "@angular/forms";
+import {DataShareService} from "./services/data-share.service";
 
 @NgModule({
   declarations: [
@@ -26,9 +30,11 @@ import { FooterComponent } from './footer/footer.component';
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    HttpClientModule,
+      FormsModule
   ],
-  providers: [],
+  providers: [CartServiceService, DataShareService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

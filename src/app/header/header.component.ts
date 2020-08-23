@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {DataShareService} from "../services/data-share.service";
 
 @Component({
   selector: 'app-header',
@@ -7,9 +8,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HeaderComponent implements OnInit {
 
-  constructor() { }
+  constructor(public dataShare: DataShareService) { }
 
   ngOnInit(): void {
+    this.handleSubscription();
+  }
+  handleSubscription() {
+    this.dataShare.addToCartEvent.subscribe(res=> {
+      this.dataShare.cartItemArr.push(res);
+    })
   }
 
 }

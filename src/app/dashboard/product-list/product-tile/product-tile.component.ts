@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
+import {Product} from "../../../models/product.model";
+import {DataShareService} from "../../../services/data-share.service";
 
 @Component({
   selector: 'app-product-tile',
@@ -6,10 +8,12 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./product-tile.component.css']
 })
 export class ProductTileComponent implements OnInit {
-
-  constructor() { }
-
+  @Input() productListArray: Product[] = [];
+  constructor(public dataShare: DataShareService) { }
   ngOnInit(): void {
   }
-
+  addToCart(product){
+    this.dataShare.addToCartEvent.next(product);
+    console.log(product);
+  }
 }

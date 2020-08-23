@@ -22,4 +22,10 @@ describe('LoginComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+    it('Validation Funtion()', () => {
+      component.userName = '';
+      component.password = 'akaka';
+        expect(component.validation()).toEqual(false);
+    });
 });

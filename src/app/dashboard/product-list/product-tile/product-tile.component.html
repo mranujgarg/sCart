@@ -1,25 +1,22 @@
 <div class="product-list">
-    <div class="product-wrapper">
+    <div class="product-wrapper" *ngFor="let product of productListArray">
         <div class="product">
-            <div class="item-discount">
-                20%
+            <div class="item-discount" *ngIf="product.discount > 0">
+                {{product.discount}}%
             </div>
-            <img src="https://cdn11.bigcommerce.com/s-pkla4xn3/images/stencil/1280x1280/products/2111/9917/COODRONY-Men-Shirt-Mens-Business-Casual-Shirts-2017-New-Arrival-Men-Famous-Brand-Clothing-Plaid-Long__49766.1514270651.jpg?c=2?imbypass=on" alt="Denim Jeans" style="width:100%">
+            <img [src]="product.image" height="200px" width="200px">
 
             <div class="description">
                 <div class="left">
-                    <h2>Product Name</h2>
-                    <h4>Brand Name</h4>
-                    <p class="price">$19.99</p>
+                    <h2>{{product.title}}</h2>
+                    <h4>{{product.brand}}</h4>
+                    <p class="price">₹{{product.price.final_price}}</p>
                 </div>
                 <div class="right">
                     <div class="colour-box-container">
-                        <div class="colour-box"></div>
-                        <div class="colour-box"></div>
-                        <div class="colour-box"></div>
-                        <div class="colour-box"></div>
+                        <div class="colour-box" [style.background-color]="product.colour.color"></div>
                     </div>
-                    <button>Add to Cart</button>
+                    <button (click)="addToCart(product)">Add to Cart</button>
                 </div>
             </div>
         </div>
