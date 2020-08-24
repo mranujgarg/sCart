@@ -8,11 +8,6 @@ export const urlForAPI = 'https://xebiascart.herokuapp.com/';
 export class CartServiceService {
 
   constructor(public http: HttpClient) { }
-    // getProducts(): Observable<HttpResponse<Object>> {
-    //     const finalUrl = urlForAPI +'products';
-    //     return this.http.get<HttpResponse<Object>>(finalUrl);
-    // }
-
     loginUser(reqParam): Observable<HttpResponse<Object>> {
         const finalUrl = urlForAPI +'users';
         return this.http.get<HttpResponse<Object>>(finalUrl, {params: reqParam});
@@ -20,5 +15,9 @@ export class CartServiceService {
     getProducts(reqParam): Observable<HttpResponse<Object>> {
         const finalUrl = urlForAPI +'products';
         return this.http.get<HttpResponse<Object>>(finalUrl, {params: reqParam});
+    }
+    getFilters(): Observable<HttpResponse<Object>> {
+        const finalUrl = urlForAPI +'filters';
+        return this.http.get<HttpResponse<Object>>(finalUrl);
     }
 }

@@ -5,9 +5,10 @@ import {Subject} from "rxjs";
   providedIn: 'root'
 })
 export class DataShareService {
-  userData;
+  userData: any;
   searchEvent = new Subject();
   addToCartEvent = new Subject();
+  filterEvent = new Subject();
   cartItemArr = [];
   constructor() { }
 }

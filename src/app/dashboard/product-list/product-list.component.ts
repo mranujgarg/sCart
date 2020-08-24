@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {CartServiceService} from "../../services/cart-service.service";
 import {Product} from "../../models/product.model";
 import {DataShareService} from "../../services/data-share.service";
@@ -11,7 +11,8 @@ import {DataShareService} from "../../services/data-share.service";
 export class ProductListComponent implements OnInit {
   productList : Product[] = [];
   showProducts: Product[] = [];
-  filterObject;
+  filterProduct: Product[] = [];
+  filterObject = [];
 
   constructor(public cartService: CartServiceService,
               public dataShare: DataShareService) {
@@ -28,41 +29,48 @@ export class ProductListComponent implements OnInit {
     }
       this.cartService.getProducts(requestParam).subscribe((res: any) => {
         this.productList = res;
+        this.filterProduct = Object.assign([],res);
         this.finalList();
       }, err => {
         console.log(err);
       })
   }
   finalList(){
-    this.filterObject =  [{key: 'color', value: '#00AF33'}];
-    if(this.filterObject){
+    // this.filterObject =  [{key: 'color', value: '#00AF33'}];
+    if(this.filterObject.length > 0){
       this.filterData();
     } else {
       this.showProducts = Object.assign([], this.productList);
+        this.filterProduct = Object.assign([], this.productList);
     }
   }
   filterData(){
     this.showProducts = [];
     let tempData = [];
     for(let filter of this.filterObject) {
-        tempData = this.productList.filter(val => {
+        this.filterProduct = this.filterProduct.filter(val => {
             if(filter.key === 'color') {
-                return val['colour'].color === filter.value;
+                return val['colour'].title === filter.value;
             } else {
-                return val[filter.key] === filter.value;
+                return val[filter.key] > parseInt(filter.value);
             }
         });
-        tempData.forEach(val=> {
+        this.filterProduct.forEach(val=> {
             if(!this.showProducts.find(val1=> val1.id === val.id)){
                 this.showProducts.push(val);
             }
         });
     }
-    console.log(tempData);
+    console.log(this.filterProduct);
   }
     handleSubuscribers(){
       this.dataShare.searchEvent.subscribe(res=>{
         this.getProducts(res);
+      })
+      this.dataShare.filterEvent.subscribe((res: any)=>{
+        this.filterObject = res;
+        this.finalList();
+
       })
     }
 
