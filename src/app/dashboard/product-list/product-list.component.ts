@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {CartServiceService} from "../../services/cart-service.service";
 import {Product} from "../../models/product.model";
 import {DataShareService} from "../../services/data-share.service";
@@ -36,12 +36,12 @@ export class ProductListComponent implements OnInit {
       })
   }
   finalList(){
-    // this.filterObject =  [{key: 'color', value: '#00AF33'}];
     if(this.filterObject.length > 0){
+        this.filterProduct = Object.assign([], this.showProducts);
       this.filterData();
     } else {
+      this.filterProduct = Object.assign([], this.productList);
       this.showProducts = Object.assign([], this.productList);
-        this.filterProduct = Object.assign([], this.productList);
     }
   }
   filterData(){
@@ -51,8 +51,10 @@ export class ProductListComponent implements OnInit {
         this.filterProduct = this.filterProduct.filter(val => {
             if(filter.key === 'color') {
                 return val['colour'].title === filter.value;
+            } else if(filter.key === 'final_price'){
+                return parseInt(val.price[filter.key]) > parseInt(filter.value);
             } else {
-                return val[filter.key] > parseInt(filter.value);
+                return parseInt(val[filter.key]) > parseInt(filter.value);
             }
         });
         this.filterProduct.forEach(val=> {
