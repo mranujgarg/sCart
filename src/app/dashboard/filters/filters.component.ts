@@ -1,6 +1,7 @@
-import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, OnInit, Output, ViewChild} from '@angular/core';
 import {CartServiceService} from "../../services/cart-service.service";
 import {DataShareService} from "../../services/data-share.service";
+import {NgForm} from "@angular/forms";
 
 @Component({
   selector: 'app-filters',
@@ -13,6 +14,7 @@ export class FiltersComponent implements OnInit {
   selectedColor = [];
   selectedPrice;
   selectedDiscount;
+  @ViewChild('f') formValue: NgForm;
   @Output() sendData = new EventEmitter;
   constructor(public cartService: CartServiceService,
               public dataShared: DataShareService) {
@@ -69,14 +71,22 @@ export class FiltersComponent implements OnInit {
     mergeFilterArray(){
         this.selectedFilters = [];
         if(this.selectedColor.length > 0){
-        this.selectedFilters = Object.assign([],this.selectedColor);
+        //this.selectedFilters = Object.assign([],this.selectedColor);
+            this.selectedFilters.push({key: 'color', value: this.selectedColor});
     }
-        if(this.selectedPrice){
+        if(this.selectedPrice && this.selectedPrice.value !== 'Min'){
             this.selectedFilters.push(this.selectedPrice);
         }
-        if(this.selectedDiscount){
+        if(this.selectedDiscount && this.selectedDiscount.value !== '0'){
             this.selectedFilters.push(this.selectedDiscount);
         }
         this.dataShared.filterEvent.next(this.selectedFilters);
+    }
+    resetFilter() {
+        this.selectedColor = [];
+        this.selectedPrice = null;
+        this.selectedDiscount = null;
+        this.formValue.resetForm();
+        this.mergeFilterArray();
     }
 }

@@ -1,18 +1,19 @@
-<div class="card">
+<form #f="ngForm">
+<div class="card" *ngIf="filterArr.length > 0">
     <h3>Colour</h3>
     <div class="checkbox-container">
         <div class="checkbox-wrapper" *ngFor="let filter of filterArr[1].values">
-            <input type="checkbox" [style.background-color]="filter.color" (change)="clickonCheckBox($event ,filter)" name="colour"/>
+            <input type="checkbox" ngModel [style.background-color]="filter.color" (change)="clickonCheckBox($event ,filter)" name="colour"/>
             <!--<div class="colour-box" [style.background-color]="filter.color" [ngClass]="{'selected': filter.selected}"></div>-->
             <label for="colour"> {{filter.title}}</label>
         </div>
     </div>
 </div>
-<div class="card">
+<div class="card" *ngIf="filterArr.length > 0">
     <h3>Price</h3>
     <div class="checkbox-container">
         <div class="checkbox-wrapper">
-            <select name="cars" (change)="dropDownSelectedPrice({key: 'final_price', value: $event.target.value})">
+            <select name="cars" ngModel (change)="dropDownSelectedPrice({key: 'final_price', value: $event.target.value})">
                 <option value="{{filter.key}}" *ngFor="let filter of filterArr[2].values">{{filter.displayValue}}</option>
             </select>
         </div>
@@ -22,8 +23,8 @@
     <h3>Discount</h3>
     <div class="checkbox-container">
         <div class="checkbox-wrapper">
-            <select name="cars" (change)="dropDownSelectedDiscount({key: 'discount', value: $event.target.value})">
-                <option value="0">min</option>
+            <select name="cars" ngModel (change)="dropDownSelectedDiscount({key: 'discount', value: $event.target.value})">
+                <option value="0" selected="selected">min</option>
                 <option value="10">10% or above</option>
                 <option value="20">20% or above</option>
                 <option value="30">30% or above</option>
@@ -36,4 +37,8 @@
             </select>
         </div>
     </div>
+</div>
+</form>
+<div>
+    <button (click)="resetFilter()"> RESET </button>
 </div>

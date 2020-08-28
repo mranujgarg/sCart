@@ -37,7 +37,7 @@ export class ProductListComponent implements OnInit {
   }
   finalList(){
     if(this.filterObject.length > 0){
-        this.filterProduct = Object.assign([], this.showProducts);
+        this.filterProduct = Object.assign([], this.productList);
       this.filterData();
     } else {
       this.filterProduct = Object.assign([], this.productList);
@@ -46,29 +46,36 @@ export class ProductListComponent implements OnInit {
   }
   filterData(){
     this.showProducts = [];
-    let tempData = [];
     for(let filter of this.filterObject) {
+        //filter Colour First
+        let colorFilter = [];
+        if(filter.key === 'color'){
+            for(let color of filter.value){
+                const temp = this.filterProduct.filter(val=> {
+                    return val['colour'].title === color.value;
+                });
+                colorFilter = colorFilter.concat(temp);
+            }
+            this.filterProduct = Object.assign([],colorFilter);
+        }
         this.filterProduct = this.filterProduct.filter(val => {
-            if(filter.key === 'color') {
-                return val['colour'].title === filter.value;
-            } else if(filter.key === 'final_price'){
+            if(filter.key === 'color')
+                return val;
+            if(filter.key === 'final_price'){
                 return parseInt(val.price[filter.key]) > parseInt(filter.value);
             } else {
                 return parseInt(val[filter.key]) > parseInt(filter.value);
             }
-        });
-        this.filterProduct.forEach(val=> {
-            if(!this.showProducts.find(val1=> val1.id === val.id)){
-                this.showProducts.push(val);
-            }
+
         });
     }
+    this.showProducts = this.filterProduct;
     console.log(this.filterProduct);
   }
     handleSubuscribers(){
       this.dataShare.searchEvent.subscribe(res=>{
         this.getProducts(res);
-      })
+      });
       this.dataShare.filterEvent.subscribe((res: any)=>{
         this.filterObject = res;
         this.finalList();
